@@ -1,35 +1,39 @@
-import fs from 'fs'
-import path from 'path'
-import Link from 'next/link'
-
-interface AppItem {
-  id: string
-  name: string
-  tagline: string
-  description: string
-  category: string
-  price: string
-  url: string
-}
-
-async function getApps(): Promise<AppItem[]> {
-  try {
-    const filePath = path.join(process.cwd(), 'data/apps.json')
-    const fileData = fs.readFileSync(filePath, 'utf8')
-    const data = JSON.parse(fileData)
-    return data.apps || []
-  } catch (error) {
-    return []
-  }
-}
-
-export default async function Home() {
-  const apps = await getApps()
+export default function Home() {
+  // アプリケーションデータ（ここを書き換えるだけで自由に追加・編集できます）
+  const apps = [
+    {
+      id: "reiwa-otakiage",
+      name: "令和お焚き上げ文芸院",
+      tagline: "デジタルお焚き上げでモヤモヤを解消",
+      description: "不要なテキストやモヤモヤをデジタルお焚き上げ。心を軽くするユーモア文芸ツール。",
+      category: "エンタメ・ゲーム",
+      price: "¥500 JPY",
+      url: "https://example.com"
+    },
+    {
+      id: "tail-puzzle",
+      name: "TailPuzzle",
+      tagline: "スキマ時間で遊べる思考型パズル",
+      description: "スキマ時間にサクッと遊べる、思考型パズルゲームアプリ。",
+      category: "ツール・効率化",
+      price: "¥980 JPY",
+      url: "https://example.com"
+    },
+    {
+      id: "dev-body",
+      name: "DevBody",
+      tagline: "開発者のための健康・姿勢管理",
+      description: "開発者のための健康・姿勢・コンディショニング管理ツール。",
+      category: "ビジネス・メンタル",
+      price: "¥2,980 JPY",
+      url: "https://example.com"
+    }
+  ]
 
   return (
     <main className="min-h-screen bg-slate-950 text-slate-100 px-4 py-12">
       <div className="max-w-4xl mx-auto">
-        {/* ヘッダーセクション（マーケティング視点でのキャッチコピー） */}
+        {/* ヘッダーセクション */}
         <header className="text-center mb-16">
           <div className="inline-block mb-3 px-3 py-1 bg-cyan-500/10 border border-cyan-500/20 rounded-full text-cyan-400 text-xs font-semibold tracking-wider uppercase">
             Product Portfolio & Tools
@@ -94,7 +98,7 @@ export default async function Home() {
         </div>
 
         {/* フッター */}
-        <footer className="mt-20 text-center text-xs text-slate-600">
+        / <footer className="mt-20 text-center text-xs text-slate-600">
           &copy; 2026 Yasuyuki Dev Apps. All rights reserved.
         </footer>
       </div>
