@@ -1,5 +1,4 @@
 export default function Home() {
-  // アプリケーションデータ（ここを書き換えるだけで自由に追加・編集できます）
   const apps = [
     {
       id: "reiwa-otakiage",
@@ -33,7 +32,6 @@ export default function Home() {
   return (
     <main className="min-h-screen bg-slate-950 text-slate-100 px-4 py-12">
       <div className="max-w-4xl mx-auto">
-        {/* ヘッダーセクション */}
         <header className="text-center mb-16">
           <div className="inline-block mb-3 px-3 py-1 bg-cyan-500/10 border border-cyan-500/20 rounded-full text-cyan-400 text-xs font-semibold tracking-wider uppercase">
             Product Portfolio & Tools
@@ -46,7 +44,6 @@ export default function Home() {
           </p>
         </header>
 
-        {/* アプリ一覧グリッド */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           {apps.map((app) => (
             <div 
@@ -54,7 +51,6 @@ export default function Home() {
               className="group relative bg-slate-900/60 border border-slate-800 rounded-2xl p-6 hover:border-slate-700 transition-all duration-300 flex flex-col justify-between shadow-xl backdrop-blur-sm hover:shadow-cyan-500/5 hover:-translate-y-1"
             >
               <div>
-                {/* カテゴリと価格バッジ */}
                 <div className="flex items-center justify-between gap-2 mb-4">
                   <span className="px-3 py-1 bg-slate-800/80 text-slate-300 text-xs font-medium rounded-lg border border-slate-700/50">
                     {app.category}
@@ -64,7 +60,6 @@ export default function Home() {
                   </span>
                 </div>
 
-                {/* アプリ名とタグライン */}
                 <h2 className="text-xl font-bold text-white mb-1 group-hover:text-cyan-400 transition-colors">
                   {app.name}
                 </h2>
@@ -72,13 +67,11 @@ export default function Home() {
                   {app.tagline}
                 </p>
 
-                {/* 説明文 */}
                 <p className="text-slate-400 text-sm leading-relaxed mb-6">
                   {app.description}
                 </p>
               </div>
 
-              {/* アクションボタン */}
               <div className="pt-4 border-t border-slate-800/80 flex items-center justify-between">
                 <span className="text-xs text-slate-500 font-mono">ID: {app.id}</span>
                 <a 
@@ -97,8 +90,7 @@ export default function Home() {
           ))}
         </div>
 
-        {/* フッター */}
-        / <footer className="mt-20 text-center text-xs text-slate-600">
+        <footer className="mt-20 text-center text-xs text-slate-600">
           &copy; 2026 Yasuyuki Dev Apps. All rights reserved.
         </footer>
       </div>
