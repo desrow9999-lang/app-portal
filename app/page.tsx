@@ -30,67 +30,68 @@ export default function Home() {
   ]
 
   return (
-    <main className="min-h-screen bg-slate-950 text-slate-100 px-4 py-12">
-      <div className="max-w-4xl mx-auto">
-        <header className="text-center mb-16">
-          <div className="inline-block mb-3 px-3 py-1 bg-cyan-500/10 border border-cyan-500/20 rounded-full text-cyan-400 text-xs font-semibold tracking-wider uppercase">
+    <main style={{ minHeight: '100vh', backgroundColor: '#030712', color: '#f9fafb', padding: '48px 16px', fontFamily: 'sans-serif' }}>
+      <div style={{ maxWidth: '800px', margin: '0 auto' }}>
+        
+        {/* ヘッダーセクション */}
+        <header style={{ textAlign: 'center', marginBottom: '64px' }}>
+          <div style={{ display: 'inline-block', marginBottom: '12px', padding: '4px 12px', backgroundColor: 'rgba(6, 182, 212, 0.1)', border: '1px solid rgba(6, 182, 212, 0.2)', borderRadius: '9999px', color: '#22d3ee', fontSize: '12px', fontWeight: '600', textTransform: 'uppercase', letterSpacing: '0.05em' }}>
             Product Portfolio & Tools
           </div>
-          <h1 className="text-4xl sm:text-5xl font-extrabold tracking-tight mb-4 bg-gradient-to-r from-white via-slate-200 to-slate-400 bg-clip-text text-transparent">
+          <h1 style={{ fontSize: '36px', fontWeight: '800', marginBottom: '16px', background: 'linear-gradient(to right, #ffffff, #94a3b8)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>
             Yasuyuki Dev Apps
           </h1>
-          <p className="text-slate-400 text-base sm:text-lg max-w-xl mx-auto leading-relaxed">
+          <p style={{ color: '#94a3b8', fontSize: '16px', maxWidth: '500px', margin: '0 auto', lineHeight: '1.6' }}>
             開発・運営中のプロダクト一覧。あなたの課題をスマートに解決する実用的なツール群。
           </p>
         </header>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+        {/* アプリ一覧グリッド */}
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '24px' }}>
           {apps.map((app) => (
             <div 
               key={app.id}
-              className="group relative bg-slate-900/60 border border-slate-800 rounded-2xl p-6 hover:border-slate-700 transition-all duration-300 flex flex-col justify-between shadow-xl backdrop-blur-sm hover:shadow-cyan-500/5 hover:-translate-y-1"
+              style={{ backgroundColor: 'rgba(15, 23, 42, 0.6)', border: '1px solid #1e293b', borderRadius: '16px', padding: '24px', display: 'flex', flexDirection: 'column', justifyContent: 'space-between', boxShadow: '0 20px 25px -5px rgba(0, 0, 0, 0.3)' }}
             >
               <div>
-                <div className="flex items-center justify-between gap-2 mb-4">
-                  <span className="px-3 py-1 bg-slate-800/80 text-slate-300 text-xs font-medium rounded-lg border border-slate-700/50">
+                <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '8px', marginBottom: '16px' }}>
+                  <span style={{ padding: '4px 10px', backgroundColor: 'rgba(30, 41, 59, 0.8)', color: '#cbd5e1', fontSize: '12px', fontWeight: '500', borderRadius: '8px', border: '1px solid rgba(51, 65, 85, 0.5)' }}>
                     {app.category}
                   </span>
-                  <span className="text-cyan-400 font-bold text-sm bg-cyan-500/10 px-2.5 py-1 rounded-lg border border-cyan-500/20">
+                  <span style={{ color: '#22d3ee', fontWeight: '700', fontSize: '14px', backgroundColor: 'rgba(6, 182, 212, 0.1)', padding: '4px 10px', borderRadius: '8px', border: '1px solid rgba(6, 182, 212, 0.2)' }}>
                     {app.price}
                   </span>
                 </div>
 
-                <h2 className="text-xl font-bold text-white mb-1 group-hover:text-cyan-400 transition-colors">
+                <h2 style={{ fontSize: '20px', fontWeight: '700', color: '#ffffff', marginBottom: '4px' }}>
                   {app.name}
                 </h2>
-                <p className="text-sm font-medium text-cyan-300/80 mb-3">
+                <p style={{ fontSize: '14px', fontWeight: '500', color: 'rgba(103, 232, 249, 0.8)', marginBottom: '12px' }}>
                   {app.tagline}
                 </p>
 
-                <p className="text-slate-400 text-sm leading-relaxed mb-6">
+                <p style={{ color: '#94a3b8', fontSize: '14px', lineHeight: '1.6', marginBottom: '24px' }}>
                   {app.description}
                 </p>
               </div>
 
-              <div className="pt-4 border-t border-slate-800/80 flex items-center justify-between">
-                <span className="text-xs text-slate-500 font-mono">ID: {app.id}</span>
+              <div style={{ paddingTop: '16px', borderTop: '1px solid rgba(30, 41, 59, 0.8)', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+                <span style={{ fontSize: '12px', color: '#64748b', fontFamily: 'monospace' }}>ID: {app.id}</span>
                 <a 
                   href={app.url}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="inline-flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-cyan-600 to-blue-600 text-white text-sm font-semibold rounded-xl hover:from-cyan-500 hover:to-blue-500 transition-all shadow-lg shadow-cyan-900/20 active:scale-95"
+                  style={{ display: 'inline-flex', alignItems: 'center', gap: '8px', padding: '8px 16px', background: 'linear-gradient(to right, #0891b2, #2563eb)', color: '#ffffff', fontSize: '14px', fontWeight: '600', borderRadius: '12px', textDecoration: 'none', boxShadow: '0 10px 15px -3px rgba(8, 145, 178, 0.2)' }}
                 >
-                  アプリを開く・購入
-                  <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M14 5l7 7m0 0l-7 7m7-7H3" />
-                  </svg>
+                  アプリを開く・購入 →
                 </a>
               </div>
             </div>
           ))}
         </div>
 
-        <footer className="mt-20 text-center text-xs text-slate-600">
+        {/* フッター */}
+        <footer style={{ marginTop: '80px', textAlign: 'center', fontSize: '12px', color: '#475569' }}>
           &copy; 2026 Yasuyuki Dev Apps. All rights reserved.
         </footer>
       </div>
