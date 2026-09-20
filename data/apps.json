@@ -1,0 +1,32 @@
+[
+  {
+    "id": "reiwa-otakiage",
+    "title": "令和お焚き上げ文芸院",
+    "description": "不要なテキストやモヤモヤをデジタルお焚き上げ。心を軽くするユーモア文芸ツール。",
+    "category": "ビジネス・メンタル",
+    "price": "¥2,980 JPY",
+    "url": "https://あなたのアプリのURL.vercel.app",
+    "isPaid": true,
+    "badge": "Pro"
+  },
+  {
+    "id": "tail-puzzle",
+    "title": "TailPuzzle",
+    "description": "スキマ時間にサクッと遊べる、思考型パズルゲームアプリ。",
+    "category": "エンタメ・ゲーム",
+    "price": "¥500 JPY",
+    "url": "https://あなたのアプリのURL.vercel.app",
+    "isPaid": true,
+    "badge": "Casual"
+  },
+  {
+    "id": "dev-body",
+    "title": "DevBody",
+    "description": "開発者のための健康・姿勢・コンディショニング管理ツール。",
+    "category": "ツール・効率化",
+    "price": "¥980 JPY",
+    "url": "https://あなたのアプリのURL.vercel.app",
+    "isPaid": true,
+    "badge": "Tool"
+  }
+]
