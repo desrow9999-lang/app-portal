@@ -79,10 +79,18 @@ export default function Home() {
     setShowModal(false);
   };
 
+  const handleDelete = (id: string) => {
+    if (confirm('このアプリを削除しますか？')) {
+      const updated = apps.filter(a => a.id !== id);
+      setApps(updated);
+      localStorage.setItem('my_yasuyuki_apps_v2', JSON.stringify(updated));
+    }
+  };
+
   return (
     <main style={{ minHeight: '100vh', backgroundColor: '#030712', color: '#f9fafb', padding: '40px 16px', fontFamily: 'sans-serif', position: 'relative' }}>
       
-      {/* 左上の小さな「＋」ボタン（文字なし） */}
+      {/* 左上の小さな「＋」ボタン */}
       <div style={{ position: 'absolute', top: '16px', left: '16px' }}>
         <button 
           onClick={() => setShowModal(true)}
@@ -151,7 +159,17 @@ export default function Home() {
         {/* アプリ一覧 */}
         <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
           {apps.map((app) => (
-            <div key={app.id} style={{ backgroundColor: 'rgba(15, 23, 42, 0.6)', border: '1px solid #1e293b', borderRadius: '14px', padding: '20px', display: 'flex', flexDirection: 'column', gap: '12px' }}>
+            <div key={app.id} style={{ backgroundColor: 'rgba(15, 23, 42, 0.6)', border: '1px solid #1e293b', borderRadius: '14px', padding: '20px', display: 'flex', flexDirection: 'column', gap: '12px', position: 'relative' }}>
+              
+              {/* 削除機能は残しつつ、見た目を透明（非表示）にしているボタン */}
+              <button 
+                onClick={() => handleDelete(app.id)} 
+                style={{ position: 'absolute', top: '12px', right: '12px', background: 'none', border: 'none', color: 'transparent', fontSize: '16px', cursor: 'pointer', padding: '4px' }}
+                title="削除"
+              >
+                ×
+              </button>
+
               <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                 <span style={{ padding: '2px 8px', backgroundColor: '#1e293b', color: '#cbd5e1', fontSize: '11px', borderRadius: '6px' }}>{app.category}</span>
                 <span style={{ color: '#22d3ee', fontWeight: 'bold', fontSize: '13px' }}>{app.price}</span>
