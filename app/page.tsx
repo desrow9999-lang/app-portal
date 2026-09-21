@@ -82,13 +82,13 @@ export default function Home() {
   return (
     <main style={{ minHeight: '100vh', backgroundColor: '#030712', color: '#f9fafb', padding: '40px 16px', fontFamily: 'sans-serif', position: 'relative' }}>
       
-      {/* 左上の小さな新規作成タブ */}
+      {/* 左上の小さな「＋」ボタン（文字なし） */}
       <div style={{ position: 'absolute', top: '16px', left: '16px' }}>
         <button 
           onClick={() => setShowModal(true)}
-          style={{ padding: '6px 12px', backgroundColor: 'rgba(8, 145, 178, 0.15)', border: '1px solid rgba(8, 145, 178, 0.3)', color: '#22d3ee', fontSize: '11px', fontWeight: 'bold', borderRadius: '8px', cursor: 'pointer' }}
+          style={{ width: '32px', height: '32px', backgroundColor: 'rgba(8, 145, 178, 0.15)', border: '1px solid rgba(8, 145, 178, 0.3)', color: '#22d3ee', fontSize: '16px', fontWeight: 'bold', borderRadius: '8px', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center' }}
         >
-          ＋ 新規作成
+          ＋
         </button>
       </div>
 
