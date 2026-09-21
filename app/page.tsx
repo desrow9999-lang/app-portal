@@ -79,36 +79,32 @@ export default function Home() {
     setShowModal(false);
   };
 
-  const handleDelete = (id: string) => {
-    if (confirm('このアプリを削除しますか？')) {
-      const updated = apps.filter(a => a.id !== id);
-      setApps(updated);
-      localStorage.setItem('my_yasuyuki_apps_v2', JSON.stringify(updated));
-    }
-  };
-
   return (
-    <main style={{ minHeight: '100vh', backgroundColor: '#030712', color: '#f9fafb', padding: '40px 16px', fontFamily: 'sans-serif' }}>
+    <main style={{ minHeight: '100vh', backgroundColor: '#030712', color: '#f9fafb', padding: '40px 16px', fontFamily: 'sans-serif', position: 'relative' }}>
+      
+      {/* 左上の小さな新規作成タブ */}
+      <div style={{ position: 'absolute', top: '16px', left: '16px' }}>
+        <button 
+          onClick={() => setShowModal(true)}
+          style={{ padding: '6px 12px', backgroundColor: 'rgba(8, 145, 178, 0.15)', border: '1px solid rgba(8, 145, 178, 0.3)', color: '#22d3ee', fontSize: '11px', fontWeight: 'bold', borderRadius: '8px', cursor: 'pointer' }}
+        >
+          ＋ 新規作成
+        </button>
+      </div>
+
       <div style={{ maxWidth: '800px', margin: '0 auto' }}>
         
         {/* ヘッダー */}
-        <header style={{ textAlign: 'center', marginBottom: '40px' }}>
+        <header style={{ textAlign: 'center', marginBottom: '40px', marginTop: '16px' }}>
           <span style={{ display: 'inline-block', padding: '4px 12px', backgroundColor: 'rgba(6, 182, 212, 0.1)', border: '1px solid rgba(6, 182, 212, 0.2)', borderRadius: '999px', color: '#22d3ee', fontSize: '11px', fontWeight: 'bold', textTransform: 'uppercase', marginBottom: '12px' }}>
             Product Portfolio & Tools
           </span>
           <h1 style={{ fontSize: '32px', fontWeight: '800', marginBottom: '12px', background: 'linear-gradient(to right, #ffffff, #94a3b8)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>
             Yasuyuki Dev Apps
           </h1>
-          <p style={{ color: '#94a3b8', fontSize: '14px', maxWidth: '480px', margin: '0 auto 20px', lineHeight: '1.5' }}>
+          <p style={{ color: '#94a3b8', fontSize: '14px', maxWidth: '480px', margin: '0 auto', lineHeight: '1.5' }}>
             開発・運営中のプロダクト一覧。あなたの課題をスマートに解決する実用的なツール群。
           </p>
-
-          <button 
-            onClick={() => setShowModal(true)}
-            style={{ padding: '10px 20px', backgroundColor: '#0891b2', color: '#fff', fontSize: '14px', fontWeight: 'bold', borderRadius: '10px', border: 'none', cursor: 'pointer', boxShadow: '0 4px 12px rgba(8, 145, 178, 0.3)' }}
-          >
-            ＋ 新規アプリを追加
-          </button>
         </header>
 
         {/* モーダルフォーム */}
@@ -158,10 +154,7 @@ export default function Home() {
             <div key={app.id} style={{ backgroundColor: 'rgba(15, 23, 42, 0.6)', border: '1px solid #1e293b', borderRadius: '14px', padding: '20px', display: 'flex', flexDirection: 'column', gap: '12px' }}>
               <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                 <span style={{ padding: '2px 8px', backgroundColor: '#1e293b', color: '#cbd5e1', fontSize: '11px', borderRadius: '6px' }}>{app.category}</span>
-                <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-                  <span style={{ color: '#22d3ee', fontWeight: 'bold', fontSize: '13px' }}>{app.price}</span>
-                  <button onClick={() => handleDelete(app.id)} style={{ background: 'none', border: 'none', color: '#ef4444', fontSize: '16px', cursor: 'pointer', padding: '0 4px' }}>×</button>
-                </div>
+                <span style={{ color: '#22d3ee', fontWeight: 'bold', fontSize: '13px' }}>{app.price}</span>
               </div>
               <div>
                 <h2 style={{ fontSize: '18px', fontWeight: 'bold', color: '#fff', marginBottom: '2px' }}>{app.name}</h2>
