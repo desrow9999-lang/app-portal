@@ -1,18 +1,18 @@
-'use client'
+'use client';
 
-import { useState, useEffect } from 'react'
+import { useState, useEffect } from 'react';
 
 interface AppItem {
-  id: string
-  name: string
-  tagline: string
-  description: string
-  category: string
-  price: string
-  url: string
+  id: string;
+  name: string;
+  tagline: string;
+  description: string;
+  category: string;
+  price: string;
+  url: string;
 }
 
-const initialApps: AppItem[] = [
+const defaultApps: AppItem[] = [
   {
     id: "reiwa-otakiage",
     name: "令和お焚き上げ文芸院",
@@ -30,245 +30,147 @@ const initialApps: AppItem[] = [
     category: "ツール・効率化",
     price: "¥980 JPY",
     url: "https://example.com"
-  },
-  {
-    id: "dev-body",
-    name: "DevBody",
-    tagline: "開発者のための健康・姿勢管理",
-    description: "開発者のための健康・姿勢・コンディショニング管理ツール。",
-    category: "ビジネス・メンタル",
-    price: "¥2,980 JPY",
-    url: "https://example.com"
   }
-]
+];
 
 export default function Home() {
-  const [apps, setApps] = useState<AppItem[]>(initialApps)
-  const [isOpen, setIsOpen] = useState(false)
-  
-  // 入力フォームの状態
-  const [name, setName] = useState('')
-  const [tagline, setTagline] = useState('')
-  const [description, setDescription] = useState('')
-  const [category, setCategory] = useState('ツール・効率化')
-  const [price, setPrice] = useState('¥1,000 JPY')
-  const [url, setUrl] = useState('https://example.com')
+  const [apps, setApps] = useState<AppItem[]>(defaultApps);
+  const [showModal, setShowModal] = useState(false);
 
-  // 起動時にLocalStorageからデータを読み込む
+  // フォーム用ステート
+  const [name, setName] = useState('');
+  const [tagline, setTagline] = useState('');
+  const [description, setDescription] = useState('');
+  const [category, setCategory] = useState('ツール・効率化');
+  const [price, setPrice] = useState('¥1,000 JPY');
+  const [url, setUrl] = useState('https://example.com');
+
   useEffect(() => {
-    const saved = localStorage.getItem('yasuyuki_apps')
+    const saved = localStorage.getItem('my_yasuyuki_apps_v2');
     if (saved) {
       try {
-        setApps(JSON.parse(saved))
-      } catch (e) {
-        // パース失敗時は初期値
-      }
+        setApps(JSON.parse(saved));
+      } catch (e) {}
     }
-  }, [])
+  }, []);
 
-  // データを保存する関数
-  const saveApps = (newApps: AppItem[]) => {
-    setApps(newApps)
-    localStorage.setItem('yasuyuki_apps', JSON.stringify(newApps))
-  }
-
-  // アプリ追加処理
-  const handleAddApp = (e: React.FormEvent) => {
-    e.preventDefault()
-    if (!name) return
+  const handleAdd = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!name) return;
 
     const newApp: AppItem = {
-      id: name.toLowerCase().replace(/[^a-z0-9]/g, '-') + '-' + Date.now().toString().slice(-4),
+      id: 'app-' + Date.now(),
       name,
       tagline,
       description,
       category,
       price,
-      url: url || 'https://example.com'
-    }
+      url
+    };
 
-    const updated = [newApp, ...apps]
-    saveApps(updated)
+    const updated = [newApp, ...apps];
+    setApps(updated);
+    localStorage.setItem('my_yasuyuki_apps_v2', JSON.stringify(updated));
 
-    // フォームをリセットして閉じる
-    setName('')
-    setTagline('')
-    setDescription('')
-    setIsOpen(false)
-  }
+    // フォーム初期化 & 閉じる
+    setName('');
+    setTagline('');
+    setDescription('');
+    setShowModal(false);
+  };
 
-  // アプリ削除処理
   const handleDelete = (id: string) => {
-    if (confirm('このアプリを削除してもよろしいですか？')) {
-      const updated = apps.filter(app => app.id !== id)
-      saveApps(updated)
+    if (confirm('このアプリを削除しますか？')) {
+      const updated = apps.filter(a => a.id !== id);
+      setApps(updated);
+      localStorage.setItem('my_yasuyuki_apps_v2', JSON.stringify(updated));
     }
-  }
+  };
 
   return (
-    <main style={{ minHeight: '100vh', backgroundColor: '#030712', color: '#f9fafb', padding: '48px 16px', fontFamily: 'sans-serif' }}>
+    <main style={{ minHeight: '100vh', backgroundColor: '#030712', color: '#f9fafb', padding: '40px 16px', fontFamily: 'sans-serif' }}>
       <div style={{ maxWidth: '800px', margin: '0 auto' }}>
         
-        {/* ヘッダーセクション */}
-        <header style={{ textAlign: 'center', marginBottom: '48px' }}>
-          <div style={{ display: 'inline-block', marginBottom: '12px', padding: '4px 12px', backgroundColor: 'rgba(6, 182, 212, 0.1)', border: '1px solid rgba(6, 182, 212, 0.2)', borderRadius: '9999px', color: '#22d3ee', fontSize: '12px', fontWeight: '600', textTransform: 'uppercase', letterSpacing: '0.05em' }}>
+        {/* ヘッダー */}
+        <header style={{ textAlign: 'center', marginBottom: '40px' }}>
+          <span style={{ display: 'inline-block', padding: '4px 12px', backgroundColor: 'rgba(6, 182, 212, 0.1)', border: '1px solid rgba(6, 182, 212, 0.2)', borderRadius: '999px', color: '#22d3ee', fontSize: '11px', fontWeight: 'bold', textTransform: 'uppercase', marginBottom: '12px' }}>
             Product Portfolio & Tools
-          </div>
-          <h1 style={{ fontSize: '36px', fontWeight: '800', marginBottom: '16px', background: 'linear-gradient(to right, #ffffff, #94a3b8)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>
+          </span>
+          <h1 style={{ fontSize: '32px', fontWeight: '800', marginBottom: '12px', background: 'linear-gradient(to right, #ffffff, #94a3b8)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>
             Yasuyuki Dev Apps
           </h1>
-          <p style={{ color: '#94a3b8', fontSize: '16px', maxWidth: '500px', margin: '0 auto', lineHeight: '1.6', marginBottom: '24px' }}>
+          <p style={{ color: '#94a3b8', fontSize: '14px', maxWidth: '480px', margin: '0 auto 20px', lineHeight: '1.5' }}>
             開発・運営中のプロダクト一覧。あなたの課題をスマートに解決する実用的なツール群。
           </p>
 
-          {/* 追加ボタン */}
           <button 
-            onClick={() => setIsOpen(true)}
-            style={{ padding: '10px 20px', backgroundColor: '#0891b2', color: '#ffffff', fontWeight: '600', fontSize: '14px', borderRadius: '12px', border: 'none', cursor: 'pointer', boxShadow: '0 10px 15px -3px rgba(8, 145, 178, 0.3)' }}
+            onClick={() => setShowModal(true)}
+            style={{ padding: '10px 20px', backgroundColor: '#0891b2', color: '#fff', fontSize: '14px', fontWeight: 'bold', borderRadius: '10px', border: 'none', cursor: 'pointer', boxShadow: '0 4px 12px rgba(8, 145, 178, 0.3)' }}
           >
-            ＋ 新規アプリを追加する
+            ＋ 新規アプリを追加
           </button>
         </header>
 
-        {/* 追加モーダルフォーム */}
-        {isOpen && (
-          <div style={{ position: 'fixed', top: 0, left: 0, right: 0, bottom: 0, backgroundColor: 'rgba(0,0,0,0.8)', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '16px', zIndex: 50 }}>
-            <div style={{ backgroundColor: '#0f172a', border: '1px solid #1e293b', borderRadius: '20px', padding: '24px', width: '100%', maxWidth: '500px', maxHeight: '90vh', overflowY: 'auto' }}>
-              <h2 style={{ fontSize: '20px', fontWeight: '700', marginBottom: '16px', color: '#fff' }}>新規アプリの登録</h2>
-              
-              <form onSubmit={handleAddApp} style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
+        {/* モーダルフォーム */}
+        {showModal && (
+          <div style={{ position: 'fixed', inset: 0, backgroundColor: 'rgba(0,0,0,0.8)', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '16px', zIndex: 100 }}>
+            <div style={{ backgroundColor: '#0f172a', border: '1px solid #1e293b', borderRadius: '16px', padding: '20px', width: '100%', maxWidth: '440px' }}>
+              <h3 style={{ fontSize: '18px', fontWeight: 'bold', marginBottom: '16px', color: '#fff' }}>新しいアプリを追加</h3>
+              <form onSubmit={handleAdd} style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
                 <div>
-                  <label style={{ fontSize: '12px', color: '#94a3b8', display: 'block', marginBottom: '4px' }}>アプリ名 *</label>
-                  <input 
-                    type="text" 
-                    value={name} 
-                    onChange={e => setName(e.target.value)} 
-                    required 
-                    placeholder="例: MyCoolApp"
-                    style={{ width: '100%', padding: '10px', backgroundColor: '#1e293b', border: '1px solid #334155', borderRadius: '8px', color: '#fff', fontSize: '14px' }}
-                  />
+                  <label style={{ fontSize: '11px', color: '#94a3b8' }}>アプリ名 *</label>
+                  <input type="text" value={name} onChange={e => setName(e.target.value)} required placeholder="例: TaskMaster" style={{ width: '100%', padding: '8px', backgroundColor: '#1e293b', border: '1px solid #334155', borderRadius: '6px', color: '#fff', fontSize: '14px' }} />
                 </div>
-
                 <div>
-                  <label style={{ fontSize: '12px', color: '#94a3b8', display: 'block', marginBottom: '4px' }}>タグライン（短いキャッチコピー）</label>
-                  <input 
-                    type="text" 
-                    value={tagline} 
-                    onChange={e => setTagline(e.target.value)} 
-                    placeholder="例: 効率を最大化するツール"
-                    style={{ width: '100%', padding: '10px', backgroundColor: '#1e293b', border: '1px solid #334155', borderRadius: '8px', color: '#fff', fontSize: '14px' }}
-                  />
+                  <label style={{ fontSize: '11px', color: '#94a3b8' }}>キャッチコピー</label>
+                  <input type="text" value={tagline} onChange={e => setTagline(e.target.value)} placeholder="例: 爆速でタスクを消化" style={{ width: '100%', padding: '8px', backgroundColor: '#1e293b', border: '1px solid #334155', borderRadius: '6px', color: '#fff', fontSize: '14px' }} />
                 </div>
-
                 <div>
-                  <label style={{ fontSize: '12px', color: '#94a3b8', display: 'block', marginBottom: '4px' }}>詳細説明</label>
-                  <textarea 
-                    value={description} 
-                    onChange={e => setDescription(e.target.value)} 
-                    placeholder="アプリの詳細な説明文"
-                    rows={3}
-                    style={{ width: '100%', padding: '10px', backgroundColor: '#1e293b', border: '1px solid #334155', borderRadius: '8px', color: '#fff', fontSize: '14px' }}
-                  />
+                  <label style={{ fontSize: '11px', color: '#94a3b8' }}>説明</label>
+                  <textarea value={description} onChange={e => setDescription(e.target.value)} placeholder="アプリの説明文" rows={2} style={{ width: '100%', padding: '8px', backgroundColor: '#1e293b', border: '1px solid #334155', borderRadius: '6px', color: '#fff', fontSize: '14px' }} />
                 </div>
-
-                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px' }}>
+                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '8px' }}>
                   <div>
-                    <label style={{ fontSize: '12px', color: '#94a3b8', display: 'block', marginBottom: '4px' }}>カテゴリ</label>
-                    <input 
-                      type="text" 
-                      value={category} 
-                      onChange={e => setCategory(e.target.value)} 
-                      style={{ width: '100%', padding: '10px', backgroundColor: '#1e293b', border: '1px solid #334155', borderRadius: '8px', color: '#fff', fontSize: '14px' }}
-                    />
+                    <label style={{ fontSize: '11px', color: '#94a3b8' }}>カテゴリ</label>
+                    <input type="text" value={category} onChange={e => setCategory(e.target.value)} style={{ width: '100%', padding: '8px', backgroundColor: '#1e293b', border: '1px solid #334155', borderRadius: '6px', color: '#fff', fontSize: '14px' }} />
                   </div>
                   <div>
-                    <label style={{ fontSize: '12px', color: '#94a3b8', display: 'block', marginBottom: '4px' }}>価格</label>
-                    <input 
-                      type="text" 
-                      value={price} 
-                      onChange={e => setPrice(e.target.value)} 
-                      style={{ width: '100%', padding: '10px', backgroundColor: '#1e293b', border: '1px solid #334155', borderRadius: '8px', color: '#fff', fontSize: '14px' }}
-                    />
+                    <label style={{ fontSize: '11px', color: '#94a3b8' }}>価格</label>
+                    <input type="text" value={price} onChange={e => setPrice(e.target.value)} style={{ width: '100%', padding: '8px', backgroundColor: '#1e293b', border: '1px solid #334155', borderRadius: '6px', color: '#fff', fontSize: '14px' }} />
                   </div>
                 </div>
-
                 <div>
-                  <label style={{ fontSize: '12px', color: '#94a3b8', display: 'block', marginBottom: '4px' }}>アプリのURL</label>
-                  <input 
-                    type="url" 
-                    value={url} 
-                    onChange={e => setUrl(e.target.value)} 
-                    style={{ width: '100%', padding: '10px', backgroundColor: '#1e293b', border: '1px solid #334155', borderRadius: '8px', color: '#fff', fontSize: '14px' }}
-                  />
+                  <label style={{ fontSize: '11px', color: '#94a3b8' }}>URL</label>
+                  <input type="url" value={url} onChange={e => setUrl(e.target.value)} style={{ width: '100%', padding: '8px', backgroundColor: '#1e293b', border: '1px solid #334155', borderRadius: '6px', color: '#fff', fontSize: '14px' }} />
                 </div>
-
-                <div style={{ display: 'flex', gap: '12px', marginTop: '12px' }}>
-                  <button 
-                    type="submit"
-                    style={{ flex: 1, padding: '10px', backgroundColor: '#0891b2', color: '#fff', fontWeight: '600', borderRadius: '8px', border: 'none', cursor: 'pointer' }}
-                  >
-                    追加する
-                  </button>
-                  <button 
-                    type="button"
-                    onClick={() => setIsOpen(false)}
-                    style={{ flex: 1, padding: '10px', backgroundColor: '#334155', color: '#fff', fontWeight: '600', borderRadius: '8px', border: 'none', cursor: 'pointer' }}
-                  >
-                    キャンセル
-                  </button>
+                <div style={{ display: 'flex', gap: '8px', marginTop: '10px' }}>
+                  <button type="submit" style={{ flex: 1, padding: '10px', backgroundColor: '#0891b2', color: '#fff', fontWeight: 'bold', borderRadius: '6px', border: 'none', cursor: 'pointer' }}>追加</button>
+                  <button type="button" onClick={() => setShowModal(false)} style={{ flex: 1, padding: '10px', backgroundColor: '#334155', color: '#fff', fontWeight: 'bold', borderRadius: '6px', border: 'none', cursor: 'pointer' }}>キャンセル</button>
                 </div>
               </form>
             </div>
           </div>
         )}
 
-        {/* アプリ一覧グリッド */}
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '24px' }}>
+        {/* アプリ一覧 */}
+        <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
           {apps.map((app) => (
-            <div 
-              key={app.id}
-              style={{ backgroundColor: 'rgba(15, 23, 42, 0.6)', border: '1px solid #1e293b', borderRadius: '16px', padding: '24px', display: 'flex', flexDirection: 'column', justifyContent: 'space-between', boxShadow: '0 20px 25px -5px rgba(0, 0, 0, 0.3)', position: 'relative' }}
-            >
-              <div>
-                <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '8px', marginBottom: '16px' }}>
-                  <span style={{ padding: '4px 10px', backgroundColor: 'rgba(30, 41, 59, 0.8)', color: '#cbd5e1', fontSize: '12px', fontWeight: '500', borderRadius: '8px', border: '1px solid rgba(51, 65, 85, 0.5)' }}>
-                    {app.category}
-                  </span>
-                  <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-                    <span style={{ color: '#22d3ee', fontWeight: '700', fontSize: '14px', backgroundColor: 'rgba(6, 182, 212, 0.1)', padding: '4px 10px', borderRadius: '8px', border: '1px solid rgba(6, 182, 212, 0.2)' }}>
-                      {app.price}
-                    </span>
-                    <button 
-                      onClick={() => handleDelete(app.id)}
-                      title="削除"
-                      style={{ background: 'transparent', border: 'none', color: '#ef4444', cursor: 'pointer', fontSize: '14px', padding: '4px' }}
-                    >
-                      ×
-                    </button>
-                  </div>
+            <div key={app.id} style={{ backgroundColor: 'rgba(15, 23, 42, 0.6)', border: '1px solid #1e293b', borderRadius: '14px', padding: '20px', display: 'flex', flexDirection: 'column', gap: '12px' }}>
+              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                <span style={{ padding: '2px 8px', backgroundColor: '#1e293b', color: '#cbd5e1', fontSize: '11px', borderRadius: '6px' }}>{app.category}</span>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                  <span style={{ color: '#22d3ee', fontWeight: 'bold', fontSize: '13px' }}>{app.price}</span>
+                  <button onClick={() => handleDelete(app.id)} style={{ background: 'none', border: 'none', color: '#ef4444', fontSize: '16px', cursor: 'pointer', padding: '0 4px' }}>×</button>
                 </div>
-
-                <h2 style={{ fontSize: '20px', fontWeight: '700', color: '#ffffff', marginBottom: '4px' }}>
-                  {app.name}
-                </h2>
-                <p style={{ fontSize: '14px', fontWeight: '500', color: 'rgba(103, 232, 249, 0.8)', marginBottom: '12px' }}>
-                  {app.tagline}
-                </p>
-
-                <p style={{ color: '#94a3b8', fontSize: '14px', lineHeight: '1.6', marginBottom: '24px' }}>
-                  {app.description}
-                </p>
               </div>
-
-              <div style={{ paddingTop: '16px', borderTop: '1px solid rgba(30, 41, 59, 0.8)', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-                <span style={{ fontSize: '12px', color: '#64748b', fontFamily: 'monospace' }}>ID: {app.id}</span>
-                <a 
-                  href={app.url}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  style={{ display: 'inline-flex', alignItems: 'center', gap: '8px', padding: '8px 16px', background: 'linear-gradient(to right, #0891b2, #2563eb)', color: '#ffffff', fontSize: '14px', fontWeight: '600', borderRadius: '12px', textDecoration: 'none', boxShadow: '0 10px 15px -3px rgba(8, 145, 178, 0.2)' }}
-                >
-                  アプリを開く・購入 →
+              <div>
+                <h2 style={{ fontSize: '18px', fontWeight: 'bold', color: '#fff', marginBottom: '2px' }}>{app.name}</h2>
+                <p style={{ fontSize: '13px', color: '#22d3ee', marginBottom: '6px' }}>{app.tagline}</p>
+                <p style={{ fontSize: '13px', color: '#94a3b8', lineHeight: '1.4' }}>{app.description}</p>
+              </div>
+              <div style={{ display: 'flex', justifyContent: 'flex-end', paddingTop: '8px', borderTop: '1px solid #1e293b' }}>
+                <a href={app.url} target="_blank" rel="noopener noreferrer" style={{ padding: '6px 14px', background: 'linear-gradient(to right, #0891b2, #2563eb)', color: '#fff', fontSize: '13px', fontWeight: 'bold', borderRadius: '8px', textDecoration: 'none' }}>
+                  アプリを開く →
                 </a>
               </div>
             </div>
@@ -276,10 +178,10 @@ export default function Home() {
         </div>
 
         {/* フッター */}
-        <footer style={{ marginTop: '80px', textAlign: 'center', fontSize: '12px', color: '#475569' }}>
+        <footer style={{ marginTop: '60px', textAlign: 'center', fontSize: '11px', color: '#475569' }}>
           &copy; 2026 Yasuyuki Dev Apps. All rights reserved.
         </footer>
       </div>
     </main>
-  )
+  );
 }
